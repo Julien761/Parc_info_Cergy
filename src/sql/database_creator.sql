@@ -17,6 +17,8 @@ CREATE USER Pau
 
 GRANT CREATE SESSION, CREATE ANY TABLE TO Cergy;
 GRANT CREATE SESSION, CREATE ANY TABLE TO Pau;
+ALTER USER Cergy quota 1M on sites;
+ALTER USER Pau quota 1M on sites;
 
 -- debug : vérifie que les 2 utilisateurs sont bien créés
 SELECT 
