@@ -1,1 +1,2 @@
-INSERT INTO Utilisateurs VALUES ('juliencon', 'julien', 'condamine');
+INSERT INTO Utilisateurs VALUES (0,'fauron','maurice','fromage','212154');
+SELECT * FROM UTILISATEURS;

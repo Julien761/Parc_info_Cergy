@@ -6,6 +6,8 @@ CREATE TABLE Utilisateurs (
   telephone VARCHAR2(20)
 );
 
+CREATE SEQUENCE Utilisateurs_seq;
+
 CREATE TABLE Materiels (
   id NUMBER(10) PRIMARY KEY,
   nom VARCHAR2(100) NOT NULL,
