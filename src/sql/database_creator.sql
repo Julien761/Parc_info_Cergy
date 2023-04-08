@@ -15,6 +15,9 @@ CREATE USER Pau
     IDENTIFIED BY Pau
     DEFAULT TABLESPACE sites;
 
+GRANT CREATE SESSION, CREATE ANY TABLE TO Cergy;
+GRANT CREATE SESSION, CREATE ANY TABLE TO Pau;
+
 -- debug : vérifie que les 2 utilisateurs sont bien créés
 SELECT 
     username,
