@@ -1,2 +1,2 @@
-INSERT INTO Utilisateurs VALUES (0,'fauron','maurice','fromage','212154');
-SELECT * FROM UTILISATEURS;
+INSERT INTO Utilisateurs VALUES (0,'condamine', 'julien', 'cledupas@gmail.com','0658745285');
+SELECT * FROM Utilisateurs;
