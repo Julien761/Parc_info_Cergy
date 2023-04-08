@@ -21,7 +21,7 @@ CREATE TABLE Logiciels (
   id NUMBER(10) PRIMARY KEY,
   nom VARCHAR(100) NOT NULL,
   date_achat DATE,
-  date_expiraton DATE
+  date_expiration DATE
 );
 
 CREATE TABLE TICKETS (
