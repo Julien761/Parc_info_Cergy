@@ -1,0 +1,4 @@
+CREATE OR REPLACE TRIGGER UtilisateurIncrementeId
+    BEFORE INSERT ON Utilisateurs
+    FOR EACH ROW
+    DECLARE
