@@ -3,8 +3,8 @@ alter session set "_ORACLE_SCRIPT"=true;
 
 -- création tablespace où sont stockées les données des sites Cergy et Pau
 CREATE TABLESPACE sites 
-   DATAFILE 'sites_data.dbf' 
-   SIZE 4m;
+    DATAFILE 'sites_data.dbf'
+    SIZE 100m;
 
 -- création des sites Cergy et Pau : émulé par 2 utilisateurs
 CREATE USER Cergy
@@ -17,8 +17,8 @@ CREATE USER Pau
 
 GRANT CREATE SESSION, CREATE ANY TABLE TO Cergy;
 GRANT CREATE SESSION, CREATE ANY TABLE TO Pau;
-ALTER USER Cergy quota 1M on sites;
-ALTER USER Pau quota 1M on sites;
+ALTER USER Cergy quota 20M on sites;
+ALTER USER Pau quota 20M on sites;
 
 -- debug : vérifie que les 2 utilisateurs sont bien créés
 SELECT 
