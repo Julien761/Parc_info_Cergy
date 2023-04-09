@@ -31,6 +31,7 @@ CREATE TABLE TICKETS (
   date_creation DATE,
   priorite NUMBER(10),
   utilisateur_id NUMBER(10),
+  status VARCHAR(20),
   FOREIGN KEY (utilisateur_id) REFERENCES Utilisateurs(id)
 );
 
