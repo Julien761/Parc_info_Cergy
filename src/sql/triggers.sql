@@ -32,3 +32,7 @@ CREATE OR REPLACE TRIGGER after_user_creation
 BEGIN
         DBMS_OUTPUT.PUT_LINE('L utilisateur ' || :NEW.nom || ' ' || :NEW.prenom || ' a bien été créé');
 END;
+
+
+    -- LIGNE DE DROIT D'EXECUTUION DE CERTAINE trigger POUR PAU
+-- GRANT EXECUTE ON nom-trigger TO admin;

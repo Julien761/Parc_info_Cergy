@@ -22,6 +22,8 @@ CREATE OR REPLACE PROCEDURE Maj_Etat_Materiel (id_materiel IN NUMBER, etat IN VA
     END;
 
 
+-- LIGNE DE DROIT D'EXECUTUION DE CERTAINE PROCEDURE POUR PAU
+--REVOKE EXECUTE ON Supprimer_Participant_Projet FROM admin;
 
 
 
