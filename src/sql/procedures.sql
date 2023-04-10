@@ -62,6 +62,8 @@ CREATE OR REPLACE PROCEDURE Supprimer_Participant_Projet (projet_id IN NUMBER, p
 
 
 
+-- LIGNE DE DROIT D'EXECUTUION DE CERTAINE PROCEDURE POUR PAU
+--REVOKE EXECUTE ON Supprimer_Participant_Projet FROM admin;
 
 
 

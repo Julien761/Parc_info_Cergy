@@ -1,5 +1,3 @@
--- UTILISATEURS --
-
 CREATE OR REPLACE TRIGGER UtilisateurIncrementeId
     BEFORE INSERT ON Utilisateurs
     FOR EACH ROW
@@ -37,6 +35,9 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('L utilisateur ' || :NEW.nom || ' ' || :NEW.prenom || ' a bien été créé');
 END;
 
+
+    -- LIGNE DE DROIT D'EXECUTUION DE CERTAINE trigger POUR PAU
+-- GRANT EXECUTE ON nom-trigger TO admin;
 CREATE OR REPLACE TRIGGER delete_logiciel
     BEFORE DELETE ON Logiciels
     FOR EACH ROW
