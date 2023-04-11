@@ -35,6 +35,15 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('L utilisateur ' || :NEW.nom || ' ' || :NEW.prenom || ' a bien été créé');
 END;
 
+CREATE OR REPLACE TRIGGER checkValiditeRole
+    AFTER UPDATE OR INSERT ON Utilisateurs
+    FOR EACH ROW
+BEGIN
+    IF :NEW.role != 'technicien' AND :NEW.role != 'utilisateur' AND :NEW.role != 'professeur' THEN
+        RAISE_APPLICATION_ERROR(698651, 'Le role doit être "technicien" ou "utilisateur"');
+    end if;
+end;
+
 -- END UTILISATEURS --
 
 
@@ -68,25 +77,13 @@ BEGIN
 END;
 
 CREATE OR REPLACE TRIGGER checkTechnicien
-    BEFORE INSERT ON Tickets
+    BEFORE INSERT OR UPDATE ON Tickets
     FOR EACH ROW
 DECLARE
     nb_match NUMBER;
 BEGIN
         SELECT COUNT(*) INTO nb_match FROM Utilisateurs WHERE id = :NEW.technicien_id AND role = 'technicien';
         IF nb_match=0 AND :NEW.technicien_id != NULL THEN
-            RAISE_APPLICATION_ERROR(-20001, 'Ce technicien n existe pas');
-        end if;
-END;
-
-CREATE OR REPLACE TRIGGER checkTechnicienUpdate
-BEFORE UPDATE ON Tickets
-FOR EACH ROW
-DECLARE
-    nb_match NUMBER;
-BEGIN
-        SELECT COUNT(*) INTO nb_match FROM Utilisateurs WHERE id = :NEW.technicien_id AND role = 'technicien';
-        IF nb_match=0 THEN
             RAISE_APPLICATION_ERROR(-20001, 'Ce technicien n existe pas');
         end if;
 END;
@@ -103,7 +100,23 @@ BEGIN
         end if;
 END;
 
+CREATE OR REPLACE TRIGGER checkValiditeStatus
+    AFTER UPDATE OR INSERT ON Tickets
+    FOR EACH ROW
+BEGIN
+    IF :NEW.status != 'created' AND :NEW.status != 'assigned' AND :NEW.status != 'in progress' AND :NEW.status != 'resolved' AND :NEW.status != 'closed' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Le status du ticket doit être "created", "assigned", "in progress", "resolved" ou "closed"');
+    end if;
+end;
 
+CREATE OR REPLACE TRIGGER checkValidityPriority
+    AFTER UPDATE OR INSERT ON Tickets
+    FOR EACH ROW
+BEGIN
+    IF :NEW.priority != 'low' AND :NEW.priority != 'medium' AND :NEW.priority != 'high' AND :NEW.priority != 'urgent' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'La priorité du ticket doit être "low", "medium", "high" ou "urgent"');
+    end if;
+end;
 
 -- END TICKETS --
 
@@ -127,6 +140,15 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('Le matériel ' || MATERIELS.NOM || ' / ' || MATERIELS.TYPE || ' d''id ' || MATERIELS.ID || ' est détruit');
     end if;
 END;
+
+CREATE OR REPLACE TRIGGER checkValiditeEtat
+    AFTER UPDATE OR INSERT ON MATERIELS
+    FOR EACH ROW
+BEGIN
+    IF :NEW.ETAT != 'detruit' AND :NEW.ETAT != 'en service' AND :NEW.ETAT != 'en panne' AND :NEW.ETAT != 'en réparation' THEN
+        RAISE_APPLICATION_ERROR(-20001, 'L état du matériel doit être "detruit", "en service", "en panne" ou "en réparation"');
+    end if;
+end;
 
 -- END MATERIELS --
 
@@ -163,9 +185,6 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20003, 'Erreur dans l enregistrement, la licence est déjà enregistrée');
     END IF;
 END;
-
-
-
 
 -- END LOGICIELS --
 
