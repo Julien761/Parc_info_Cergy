@@ -48,5 +48,14 @@ CREATE OR REPLACE VIEW Materiel_Defectueux AS
 
 -- END MATERIELS --
 
+-- LOGICIELS --
+
+CREATE OR REPLACE VIEW Logiciel_Expire AS
+    SELECT Logiciels.NOM, logiciels.DATE_ACHAT, logiciels.DATE_EXPIRATION as LogicielNom
+    FROM Logiciels
+    WHERE DATE_EXPIRATION <= SYSDATE;
+
+-- END LOGICIELS --
+
 -- LIGNE DE DROIT D'EXECUTUION DE CERTAINE vue POUR PAU
 -- GRANT EXECUTE ON nom_vue TO admin;

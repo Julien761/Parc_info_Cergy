@@ -35,8 +35,10 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE('L utilisateur ' || :NEW.nom || ' ' || :NEW.prenom || ' a bien été créé');
 END;
 
+-- END UTILISATEURS --
 
-    -- LIGNE DE DROIT D'EXECUTUION DE CERTAINE trigger POUR PAU
+
+    -- LIGNE DE DROIT D'EXECUTION DE CERTAINS trigger POUR local_admin
 -- GRANT EXECUTE ON nom-trigger TO admin;
 CREATE OR REPLACE TRIGGER delete_logiciel
     BEFORE DELETE ON Logiciels
@@ -50,7 +52,6 @@ BEGIN
         end if;
 END;
 
--- END UTILISATEURS --
 
 -- TICKETS --
 
@@ -120,7 +121,7 @@ BEGIN
 END;
 
 CREATE OR REPLACE TRIGGER MessageMaterielDetruit
-    BEFORE UPDATE ON MATERIELS
+    AFTER UPDATE ON MATERIELS
 BEGIN
     IF :NEW.ETAT = 'detruit' then
         DBMS_OUTPUT.PUT_LINE('Le matériel ' || MATERIELS.NOM || ' / ' || MATERIELS.TYPE || ' d''id ' || MATERIELS.ID || ' est détruit');
@@ -141,6 +142,29 @@ BEGIN
         FROM DUAL;
     end if;
 END;
+
+CREATE OR REPLACE TRIGGER VerifierExpiration
+    BEFORE INSERT ON Logiciels
+    FOR EACH ROW
+BEGIN
+    IF :NEW.DATE_EXPIRATION <= SYSDATE THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Erreur dans l enregistrement, le logiciel a expiré');
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER LicenceDejaEnregistre
+    BEFORE INSERT ON Logiciels
+    FOR EACH ROW
+    DECLARE
+        CURSOR cursor_l IS SELECT * FROM Logiciels WHERE nom = :NEW.nom AND date_achat = :NEW.date_achat AND date_expiration = :NEW.date_expiration;
+BEGIN
+    IF cursor_l.ID != NULL THEN
+                RAISE_APPLICATION_ERROR(-20003, 'Erreur dans l enregistrement, la licence est déjà enregistrée');
+    END IF;
+END;
+
+
+
 
 -- END LOGICIELS --
 
@@ -165,7 +189,7 @@ END;
 -- MATERIEL_LOGICIELS --
 
 CREATE OR REPLACE TRIGGER MaterielLogicielIncrementeId
-    BEFORE INSERT ON Materiels_Logiciels
+    BEFORE INSERT ON Materiel_Logiciels
     FOR EACH ROW
 BEGIN
     IF :NEW.id is NULL then

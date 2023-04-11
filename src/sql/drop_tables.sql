@@ -8,9 +8,16 @@ DROP TABLE UTILISATEURS;
 DROP TABLESPACE stockageCergy INCLUDING CONTENTS AND DATAFILES;
 DROP TABLESPACE stockagePau INCLUDING CONTENTS AND DATAFILES;
 
-DROP ROLE super_admin;
-DROP ROLE admin;
+-- DROP ROLE super_admin; --
+-- DROP ROLE admin; --
 
+REVOKE super_admin FROM Cergy;
+REVOKE local_admin FROM Pau;
+
+DROP ROLE super_admin;
+DROP ROLE local_admin;
+
+-- Une fois qu'on a bien déconnecté les users --
 DROP USER Cergy CASCADE;
 DROP USER Pau CASCADE ;
 
