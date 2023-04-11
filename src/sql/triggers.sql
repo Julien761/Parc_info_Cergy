@@ -156,10 +156,11 @@ CREATE OR REPLACE TRIGGER LicenceDejaEnregistre
     BEFORE INSERT ON Logiciels
     FOR EACH ROW
     DECLARE
-        CURSOR cursor_l IS SELECT * FROM Logiciels WHERE nom = :NEW.nom AND date_achat = :NEW.date_achat AND date_expiration = :NEW.date_expiration;
+        nb_match NUMBER(10);
 BEGIN
-    IF cursor_l.ID != NULL THEN
-                RAISE_APPLICATION_ERROR(-20003, 'Erreur dans l enregistrement, la licence est déjà enregistrée');
+    SELECT COUNT(*) INTO nb_match FROM Logiciels WHERE nom = :NEW.nom AND date_achat = :NEW.date_achat AND date_expiration = :NEW.date_expiration;
+    IF nb_match != 0 THEN
+        RAISE_APPLICATION_ERROR(-20003, 'Erreur dans l enregistrement, la licence est déjà enregistrée');
     END IF;
 END;
 
