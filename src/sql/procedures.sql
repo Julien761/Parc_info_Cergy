@@ -48,6 +48,8 @@ CREATE OR REPLACE PROCEDURE Remove_Logiciel_From_All_Materiels (id_logiciel IN N
 
 -- END LOGICIELS --
 
+
+-- PROJETS --
 CREATE OR REPLACE PROCEDURE Ajouter_Participant_Projet (projet_id IN NUMBER, participant_id IN NUMBER) AS
     BEGIN
         INSERT INTO PARTICIPANTS_PROJETS (UTILISATEUR_ID, PROJET_ID) VALUES (participant_id, projet_id);
@@ -58,6 +60,11 @@ CREATE OR REPLACE PROCEDURE Supprimer_Participant_Projet (projet_id IN NUMBER, p
         DELETE FROM PARTICIPANTS_PROJETS
             WHERE PROJET_ID = projet_id AND UTILISATEUR_ID = participant_id;
     END Supprimer_Participant_Projet;
+
+CREATE OR REPLACE PROCEDURE Ajouter_Ticket_Projet (projet_id IN NUMBER, ticket_id IN NUMBER) AS
+    BEGIN
+        INSERT INTO PROJETS_TICKETS (PROJET_ID, TICKET_ID) VALUES (projet_id, ticket_id);
+    END Ajouter_Ticket_Projet;
 
 
 

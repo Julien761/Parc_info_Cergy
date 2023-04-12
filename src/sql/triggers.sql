@@ -236,6 +236,29 @@ END;
 
 -- END PARTICIPANTS_PROJETS --
 
+-- PROJETS_TICKETS --
 
+CREATE OR REPLACE TRIGGER ProjetTicketIncrementeId
+    BEFORE INSERT ON Projets_Tickets
+    FOR EACH ROW
+BEGIN
+    IF :NEW.id is NULL then
+        SELECT PROJETS_TICKETS_SEQ.nextval
+        INTO :NEW.id
+        FROM DUAL;
+    end if;
+END;
 
+CREATE OR REPLACE TRIGGER checkProjet
+    BEFORE INSERT ON Projets_Tickets
+    FOR EACH ROW
+DECLARE
+    nb_match NUMBER;
+BEGIN
+        SELECT COUNT(*) INTO nb_match FROM Projets WHERE id = :NEW.projet_id;
+        IF nb_match=0 THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Ce projet n existe pas');
+        end if;
+
+-- END PROJETS_TICKETS --
 
