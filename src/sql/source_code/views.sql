@@ -96,3 +96,8 @@ CREATE OR REPLACE VIEW Tickets_Par_Status AS
     ORDER BY NOMBRE_DE_TICKETS DESC;
 
 -- END TICKETS --
+
+CREATE OR REPLACE VIEW Noms_UtilisateursPau AS
+  SELECT PRENOM, NOM
+  FROM Utilisateurs@Pau_link2;
+/

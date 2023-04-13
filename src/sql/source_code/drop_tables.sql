@@ -20,6 +20,6 @@ DROP ROLE local_admin;
 -- Une fois qu'on a bien déconnecté les users --
 DROP USER Cergy CASCADE;
 DROP USER Pau CASCADE ;
-
+/
 
 

@@ -49,7 +49,7 @@ SELECT * FROM Utilisateurs;
 
 
 INSERT INTO Utilisateurs@Pau_link2 VALUES (1,'condamine', 'julien', 'cledupas@gmail.com','0658745285', 'user');
-
+/
 
 
 

@@ -71,7 +71,7 @@ CREATE OR REPLACE PROCEDURE Ajouter_Ticket_Projet (projet_id IN NUMBER, ticket_i
 
 -- LIGNE DE DROIT D'EXECUTUION DE CERTAINE PROCEDURE POUR PAU
 --REVOKE EXECUTE ON Supprimer_Participant_Projet FROM admin;
-
+/
 
 
 

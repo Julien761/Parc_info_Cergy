@@ -2,11 +2,9 @@ CREATE OR REPLACE TRIGGER UtilisateurIncrementeId
     BEFORE INSERT ON Utilisateurs
     FOR EACH ROW
 BEGIN
-    IF :NEW.id is NULL then
         SELECT Utilisateurs_seq.nextval
         INTO :NEW.id
         FROM DUAL;
-    end if;
 END;
 
 CREATE OR REPLACE TRIGGER searchForExistingUser
@@ -28,11 +26,12 @@ BEGIN
 END;
 
 
-CREATE OR REPLACE TRIGGER after_user_creation
+
+CREATE OR REPLACE TRIGGER after_user_creations
     AFTER INSERT ON Utilisateurs
     FOR EACH ROW
 BEGIN
-        DBMS_OUTPUT.PUT_LINE('L utilisateur ' || :NEW.nom || ' ' || :NEW.prenom || ' a bien été créé');
+    DBMS_OUTPUT.PUT_LINE('L utilisateur ' || :NEW.nom || ' ' || :NEW.prenom || ' a bien été créé');
 END;
 
 CREATE OR REPLACE TRIGGER checkValiditeRole
@@ -68,12 +67,11 @@ CREATE OR REPLACE TRIGGER TicketIncrementeId
     BEFORE INSERT ON Tickets
     FOR EACH ROW
 BEGIN
-    IF :NEW.id is NULL then
+
         SELECT Tickets_seq.nextval
         INTO :NEW.id
         FROM DUAL;
-    end if;
-    :new.status := 'created';
+        :new.status := 'created';
 END;
 
 CREATE OR REPLACE TRIGGER checkTechnicien
@@ -126,11 +124,9 @@ CREATE OR REPLACE TRIGGER MaterielIncrementeId
     BEFORE INSERT ON Materiels
     FOR EACH ROW
 BEGIN
-    IF :NEW.id is NULL then
         SELECT MATERIELS_SEQ.nextval
         INTO :NEW.id
         FROM DUAL;
-    end if;
 END;
 
 CREATE OR REPLACE TRIGGER MessageMaterielDetruit
@@ -158,11 +154,9 @@ CREATE OR REPLACE TRIGGER LogicielIncrementeId
     BEFORE INSERT ON Logiciels
     FOR EACH ROW
 BEGIN
-    IF :NEW.id is NULL then
         SELECT LOGICIELS_SEQ.nextval
         INTO :NEW.id
         FROM DUAL;
-    end if;
 END;
 
 CREATE OR REPLACE TRIGGER VerifierExpiration
@@ -195,11 +189,9 @@ CREATE OR REPLACE TRIGGER ProjetIncrementeId
     BEFORE INSERT ON Projets
     FOR EACH ROW
 BEGIN
-    IF :NEW.id is NULL then
         SELECT PROJETS_SEQ.nextval
         INTO :NEW.id
         FROM DUAL;
-    end if;
 END;
 
 
@@ -212,11 +204,9 @@ CREATE OR REPLACE TRIGGER MaterielLogicielIncrementeId
     BEFORE INSERT ON Materiel_Logiciels
     FOR EACH ROW
 BEGIN
-    IF :NEW.id is NULL then
         SELECT MATERIEL_LOGICIELS_SEQ.nextval
         INTO :NEW.id
         FROM DUAL;
-    end if;
 END;
 
 -- END MATERIEL_LOGICIELS --
@@ -227,11 +217,9 @@ CREATE OR REPLACE TRIGGER ParticipantProjetIncrementeId
     BEFORE INSERT ON Participants_Projets
     FOR EACH ROW
 BEGIN
-    IF :NEW.id is NULL then
         SELECT PARTICIPANTS_PROJETS_SEQ.nextval
         INTO :NEW.id
         FROM DUAL;
-    end if;
 END;
 
 -- END PARTICIPANTS_PROJETS --
@@ -242,11 +230,9 @@ CREATE OR REPLACE TRIGGER ProjetTicketIncrementeId
     BEFORE INSERT ON Projets_Tickets
     FOR EACH ROW
 BEGIN
-    IF :NEW.id is NULL then
         SELECT PROJETS_TICKETS_SEQ.nextval
         INTO :NEW.id
         FROM DUAL;
-    end if;
 END;
 
 CREATE OR REPLACE TRIGGER checkProjet
@@ -259,6 +245,6 @@ BEGIN
         IF nb_match=0 THEN
             RAISE_APPLICATION_ERROR(-20001, 'Ce projet n existe pas');
         end if;
-
+END;
 -- END PROJETS_TICKETS --
-
+/
