@@ -200,13 +200,14 @@ CREATE OR REPLACE TRIGGER after_user_creations
 BEGIN
     DBMS_OUTPUT.PUT_LINE('L utilisateur ' || :NEW.nom || ' ' || :NEW.prenom || ' a bien été créé');
 END;
+/
 
 CREATE OR REPLACE TRIGGER checkValiditeRole
     AFTER UPDATE OR INSERT ON Utilisateurs
     FOR EACH ROW
 BEGIN
     IF :NEW.role != 'technicien' AND :NEW.role != 'utilisateur' AND :NEW.role != 'professeur' THEN
-        RAISE_APPLICATION_ERROR(698651, 'Le role doit être "technicien" ou "utilisateur"');
+        RAISE_APPLICATION_ERROR(-20003, 'Le role doit être "technicien" ou "utilisateur"');
     end if;
 end;
 /
@@ -520,33 +521,33 @@ CREATE OR REPLACE VIEW Tickets_Par_Status AS
 
 -- DONNEES DES TABLES --
 -- INSERT UTILISATEURS --
-INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (1, 'Dupont', 'Jean', 'jean.dupont@gmail.com', '0645454566', 'admin');
+INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (1, 'Dupont', 'Jean', 'jean.dupont@gmail.com', '0645454566', 'utilisateur');
 INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (2, 'Martin', 'Marie', 'marie.martin@hotmail.fr', '0656789765', 'utilisateur');
 INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (3, 'Dubois', 'Pierre', 'pierre.dubois@yahoo.com', '0678987689', 'utilisateur');
 INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (4, 'Lefebvre', 'Sophie', 'sophie.lefebvre@orange.fr', '0634567890', 'utilisateur');
-INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (5, 'Durand', 'Paul', 'paul.durand@gmail.com', '0687654321', 'admin');
+INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (5, 'Durand', 'Paul', 'paul.durand@gmail.com', '0687654321', 'utilisateur');
 INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (6, 'Benoit', 'Lucie', 'lucie.benoit@hotmail.com', '0612345678', 'utilisateur');
 INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (7, 'Moreau', 'Julien', 'julien.moreau@yahoo.fr', '0698765432', 'utilisateur');
-INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (8, 'Girard', 'Camille', 'camille.girard@gmail.com', '0678901234', 'admin');
+INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (8, 'Girard', 'Camille', 'camille.girard@gmail.com', '0678901234', 'utilisateur');
 INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (9, 'Rousseau', 'Antoine', 'antoine.rousseau@outlook.com', '0611223344', 'utilisateur');
 INSERT INTO Utilisateurs (id, nom, prenom, email, telephone, role) VALUES (10, 'Lacroix', 'Nathalie', 'nathalie.lacroix@laposte.net', '0698989898', 'utilisateur');
 
 -- INSERT MATERIEL --
-INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (1, 'Ordinateur portable', 'MacBook Pro 13 pouces', TO_DATE('2022-01-01', 'YYYY-MM-DD'), TO_DATE('2024-01-01', 'YYYY-MM-DD'), 'Informatique', 'Neuf', 2);
-INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (2, 'Imprimante', 'HP LaserJet Pro MFP M28w', TO_DATE('2022-02-01', 'YYYY-MM-DD'), TO_DATE('2024-02-01', 'YYYY-MM-DD'), 'Informatique', 'Neuf', 3);
-INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (3, 'Téléphone portable', 'Samsung Galaxy S21', TO_DATE('2021-12-01', 'YYYY-MM-DD'), TO_DATE('2023-12-01', 'YYYY-MM-DD'), 'Téléphonie', 'Bon état', 4);
-INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (4, 'Casque audio', 'Bose QuietComfort 35 II', TO_DATE('2022-03-01', 'YYYY-MM-DD'), TO_DATE('2024-03-01', 'YYYY-MM-DD'), 'Audio', 'Neuf', 5);
-INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (5, 'Scanner', 'Epson Perfection V370', TO_DATE('2021-11-01', 'YYYY-MM-DD'), TO_DATE('2023-11-01', 'YYYY-MM-DD'), 'Informatique', 'Bon état', 6);
-INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (6, 'Tablette', 'iPad Pro 12.9 pouces', TO_DATE('2022-04-01', 'YYYY-MM-DD'), TO_DATE('2024-04-01', 'YYYY-MM-DD'), 'Informatique', 'Neuf', 7);
-INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (7, 'Appareil photo', 'Sony Alpha 7 III', TO_DATE('2021-10-01', 'YYYY-MM-DD'), TO_DATE('2023-10-01', 'YYYY-MM-DD'), 'Photo', 'Bon état', 8);
-INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (8, 'Clé USB', 'SanDisk Ultra Flair 64 Go', TO_DATE('2022-05-01', 'YYYY-MM-DD'), TO_DATE('2024-05-01', 'YYYY-MM-DD'), 'Informatique', 'Neuf', 9);
+INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (1, 'Ordinateur portable', 'MacBook Pro 13 pouces', TO_DATE('2022-01-01', 'YYYY-MM-DD'), TO_DATE('2024-01-01', 'YYYY-MM-DD'), 'Informatique', 'en service', 2);
+INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (2, 'Imprimante', 'HP LaserJet Pro MFP M28w', TO_DATE('2022-02-01', 'YYYY-MM-DD'), TO_DATE('2024-02-01', 'YYYY-MM-DD'), 'Informatique', 'detruit', 3);
+INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (3, 'Téléphone portable', 'Samsung Galaxy S21', TO_DATE('2021-12-01', 'YYYY-MM-DD'), TO_DATE('2027-12-01', 'YYYY-MM-DD'), 'Téléphonie', 'en panne', 4);
+INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (4, 'Casque audio', 'Bose QuietComfort 35 II', TO_DATE('2022-03-01', 'YYYY-MM-DD'), TO_DATE('2024-03-01', 'YYYY-MM-DD'), 'Audio', 'en service', 5);
+INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (5, 'Scanner', 'Epson Perfection V370', TO_DATE('2021-11-01', 'YYYY-MM-DD'), TO_DATE('2028-11-01', 'YYYY-MM-DD'), 'Informatique', 'en service', 6);
+INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (6, 'Tablette', 'iPad Pro 12.9 pouces', TO_DATE('2022-04-01', 'YYYY-MM-DD'), TO_DATE('2024-04-01', 'YYYY-MM-DD'), 'Informatique', 'en panne', 7);
+INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (7, 'Appareil photo', 'Sony Alpha 7 III', TO_DATE('2021-10-01', 'YYYY-MM-DD'), TO_DATE('2026-10-01', 'YYYY-MM-DD'), 'Photo', 'en réparation', 8);
+INSERT INTO Materiels (id, nom, description, date_achat, date_fin_garantie, type, etat, utilisateur_id) VALUES (8, 'Clé USB', 'SanDisk Ultra Flair 64 Go', TO_DATE('2022-05-01', 'YYYY-MM-DD'), TO_DATE('2024-05-01', 'YYYY-MM-DD'), 'Informatique', 'en service', 9);
 
 -- INSERT LOGICIEL --
 INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (1, 'Microsoft Office 365', TO_DATE('2022-01-01', 'YYYY-MM-DD'), TO_DATE('2024-01-01', 'YYYY-MM-DD'));
-INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (2, 'Adobe Photoshop', TO_DATE('2022-02-01', 'YYYY-MM-DD'), TO_DATE('2023-02-01', 'YYYY-MM-DD'));
+INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (2, 'Adobe Photoshop', TO_DATE('2022-02-01', 'YYYY-MM-DD'), TO_DATE('2025-02-01', 'YYYY-MM-DD'));
 INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (3, 'AutoCAD 2022', TO_DATE('2021-12-01', 'YYYY-MM-DD'), TO_DATE('2024-12-01', 'YYYY-MM-DD'));
-INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (4, 'SketchUp Pro 2022', TO_DATE('2022-03-01', 'YYYY-MM-DD'), TO_DATE('2023-03-01', 'YYYY-MM-DD'));
-INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (5, 'Visual Studio Code', TO_DATE('2021-11-01', 'YYYY-MM-DD'), TO_DATE('2023-11-01', 'YYYY-MM-DD'));
+INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (4, 'SketchUp Pro 2022', TO_DATE('2022-03-01', 'YYYY-MM-DD'), TO_DATE('2025-03-01', 'YYYY-MM-DD'));
+INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (5, 'Visual Studio Code', TO_DATE('2021-11-01', 'YYYY-MM-DD'), TO_DATE('2025-11-01', 'YYYY-MM-DD'));
 INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (6, 'Adobe Illustrator', TO_DATE('2022-04-01', 'YYYY-MM-DD'), TO_DATE('2024-04-01', 'YYYY-MM-DD'));
 INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (7, 'MATLAB R2022a', TO_DATE('2021-10-01', 'YYYY-MM-DD'), TO_DATE('2024-10-01', 'YYYY-MM-DD'));
 INSERT INTO Logiciels (id, nom, date_achat, date_expiration) VALUES (8, 'Blender', TO_DATE('2022-05-01', 'YYYY-MM-DD'), TO_DATE('2024-05-01', 'YYYY-MM-DD'));
@@ -566,16 +567,16 @@ INSERT INTO Materiel_logiciels (id, materiel_id, logiciel_id) VALUES (9, 5, 2);
 INSERT INTO Materiel_logiciels (id, materiel_id, logiciel_id) VALUES (10, 2, 9);
 
 -- INSERT TICKETS --
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (1, 'Problème de connexion', 'Je ne peux pas me connecter à mon compte', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En attente', 3, 5);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (2, 'Problème d impression', 'Je ne peux pas imprimer de documents', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Moyenne', 'En cours', 4, 6);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (3, 'Problème de performance', 'Mon ordinateur est très lent', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Basse', 'Résolu', 2, 7);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (4, 'Problème de logiciel', 'Je ne peux pas ouvrir mon logiciel de traitement de texte', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En attente', 5, 9);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (5, 'Problème d accès', 'Je n ai pas accès à un dossier partagé', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Moyenne', 'Résolu', 1, 8);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (6, 'Problème de connexion', 'Je ne peux pas me connecter à Internet', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En cours', 6, 5);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (7, 'Problème de messagerie', 'Je ne reçois pas mes emails', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Moyenne', 'Résolu', 3, 7);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (8, 'Problème d installation', 'Je ne peux pas installer un logiciel', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Basse', 'En attente', 4, 6);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (9, 'Problème de son', 'Je n ai pas de son sur mon ordinateur', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Moyenne', 'Résolu', 2, 5);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (10, 'Problème de sauvegarde', 'Je ne peux pas sauvegarder mes fichiers', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En cours', 1, 9);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (1, 'Problème de connexion', 'Je ne peux pas me connecter à mon compte', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'high', 'created', 3, 5);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (2, 'Problème d impression', 'Je ne peux pas imprimer de documents', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'medium', 'assigned', 4, 6);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (3, 'Problème de performance', 'Mon ordinateur est très lent', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'low', 'Résolu', 2, 7);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (4, 'Problème de logiciel', 'Je ne peux pas ouvrir mon logiciel de traitement de texte', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'high', 'resolved', 5, 9);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (5, 'Problème d accès', 'Je n ai pas accès à un dossier partagé', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'medium', 'resolved', 1, 8);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (6, 'Problème de connexion', 'Je ne peux pas me connecter à Internet', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'high', 'created', 6, 5);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (7, 'Problème de messagerie', 'Je ne reçois pas mes emails', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'medium', 'created', 3, 7);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (8, 'Problème d installation', 'Je ne peux pas installer un logiciel', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'low', 'assigned', 4, 6);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (9, 'Problème de son', 'Je n ai pas de son sur mon ordinateur', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'medium', 'resolved', 2, 5);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (10, 'Problème de sauvegarde', 'Je ne peux pas sauvegarder mes fichiers', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'high', 'resolved', 1, 9);
 
 -- INSERT PROJET --
 INSERT INTO PROJETS (id, nom, description, date_creation, responsable_id)
@@ -672,10 +673,11 @@ INSERT INTO PROJETS_TICKETS (id, ticket_id, projet_id)
 VALUES (10, 10, 5);
 
 -- CREATION INDEX --
-CREATE UNIQUE INDEX index_tickets_utilisateurID ON TICKETS(utilisateur_id);
+
 CREATE UNIQUE INDEX index_materiel_date ON Materiels(date_fin_garantie);
 CREATE UNIQUE INDEX index_logiciel_date ON Logiciels(date_expiration);
-CREATE INDEX participants_projets_all ON PARTICIPANTS_PROJETS(UTILISATEUR_ID, PROJET_ID);
+
+
 
 -- CREATION DU DATA LINK VERS PAU --
 
