@@ -1,5 +1,6 @@
 -- Ici sont appelés tous les scripts qui permettent la mise en place
--- de la base locale de Pau.
+-- de la base locale de Cergy + les scripts uniquement présents sur Cergy
+-- afin de satisfaire l'exigence d'une base de données répartie.
 
 -- CREATION DES TABLES --
 
@@ -101,17 +102,17 @@ CREATE OR REPLACE PROCEDURE Update_Ticket_Status (p_ticket_id IN NUMBER, p_statu
     BEGIN
         UPDATE TICKETS SET STATUS = p_status WHERE ID = p_ticket_id;
     END Update_Ticket_Status;
-
+/
 CREATE OR REPLACE PROCEDURE Update_Ticket_Priority (p_ticket_id IN NUMBER, p_priority IN VARCHAR2) AS
     BEGIN
         UPDATE TICKETS SET PRIORITE = p_priority WHERE ID = p_ticket_id;
     END Update_Ticket_Priority;
-
+/
 CREATE OR REPLACE PROCEDURE Update_Ticket_Assignee (p_ticket_id IN NUMBER, p_technicien_id IN NUMBER) AS
     BEGIN
         UPDATE TICKETS SET TECHNICIEN_ID = p_technicien_id WHERE ID = p_ticket_id;
     END Update_Ticket_Assignee;
-
+/
 -- END TICKETS --
 
 -- MATERIELS --
@@ -119,18 +120,18 @@ CREATE OR REPLACE PROCEDURE Maj_Etat_Materiel (id_materiel IN NUMBER, n_etat IN 
     BEGIN
         UPDATE MATERIELS SET ETAT = n_etat WHERE ID = id_materiel;
     END Maj_Etat_Materiel;
-
+/
 CREATE OR REPLACE PROCEDURE Add_Logiciel_Materiel (id_materiel IN NUMBER, id_logiciel IN NUMBER) AS
     BEGIN
         INSERT INTO MATERIEL_LOGICIELS (MATERIEL_ID, LOGICIEL_ID) VALUES (id_materiel, id_logiciel);
     END Add_Logiciel_Materiel;
-
+/
 CREATE OR REPLACE PROCEDURE Delete_Logiciel_Materiel (id_materiel IN NUMBER, id_logiciel IN NUMBER) AS
     BEGIN
         DELETE FROM MATERIEL_LOGICIELS
             WHERE MATERIEL_ID = id_materiel AND LOGICIEL_ID = id_logiciel;
     END Delete_Logiciel_Materiel;
-
+/
 
 -- END MATERIELS --
 
@@ -141,7 +142,7 @@ CREATE OR REPLACE PROCEDURE Remove_Logiciel_From_All_Materiels (id_logiciel IN N
         DELETE FROM MATERIEL_LOGICIELS
             WHERE LOGICIEL_ID = id_logiciel;
     END Remove_Logiciel_From_All_Materiels;
-
+/
 -- END LOGICIELS --
 
 
@@ -150,18 +151,18 @@ CREATE OR REPLACE PROCEDURE Ajouter_Participant_Projet (projet_id IN NUMBER, par
     BEGIN
         INSERT INTO PARTICIPANTS_PROJETS (UTILISATEUR_ID, PROJET_ID) VALUES (participant_id, projet_id);
     END Ajouter_Participant_Projet;
-
+/
 CREATE OR REPLACE PROCEDURE Supprimer_Participant_Projet (projet_id IN NUMBER, participant_id IN NUMBER) AS
     BEGIN
         DELETE FROM PARTICIPANTS_PROJETS
             WHERE PROJET_ID = projet_id AND UTILISATEUR_ID = participant_id;
     END Supprimer_Participant_Projet;
-
+/
 CREATE OR REPLACE PROCEDURE Ajouter_Ticket_Projet (projet_id IN NUMBER, ticket_id IN NUMBER) AS
     BEGIN
         INSERT INTO PROJETS_TICKETS (PROJET_ID, TICKET_ID) VALUES (projet_id, ticket_id);
     END Ajouter_Ticket_Projet;
-
+/
 -- CREATION DES TRIGGERS --
 
 CREATE OR REPLACE TRIGGER UtilisateurIncrementeId
@@ -172,7 +173,7 @@ BEGIN
         INTO :NEW.id
         FROM DUAL;
 END;
-
+/
 CREATE OR REPLACE TRIGGER searchForExistingUser
     BEFORE INSERT ON Utilisateurs
     FOR EACH ROW
@@ -190,7 +191,7 @@ BEGIN
             RAISE_APPLICATION_ERROR(-20001, 'Ce numéro de téléphone est déjà enregistré dans la base de données');
         end if;
 END;
-
+/
 
 
 CREATE OR REPLACE TRIGGER after_user_creations
@@ -208,7 +209,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(698651, 'Le role doit être "technicien" ou "utilisateur"');
     end if;
 end;
-
+/
 -- END UTILISATEURS --
 
 
@@ -225,7 +226,7 @@ BEGIN
             RAISE_APPLICATION_ERROR(-20001, 'Ce logiciel est encore utilisé par un matériel');
         end if;
 END;
-
+/
 
 -- TICKETS --
 
@@ -239,7 +240,7 @@ BEGIN
         FROM DUAL;
         :new.status := 'created';
 END;
-
+/
 CREATE OR REPLACE TRIGGER checkTechnicien
     BEFORE INSERT OR UPDATE ON Tickets
     FOR EACH ROW
@@ -251,7 +252,7 @@ BEGIN
             RAISE_APPLICATION_ERROR(-20001, 'Ce technicien n existe pas');
         end if;
 END;
-
+/
 CREATE OR REPLACE TRIGGER checkUtilisateur
     BEFORE INSERT ON Tickets
     FOR EACH ROW
@@ -263,7 +264,7 @@ BEGIN
             RAISE_APPLICATION_ERROR(-20001, 'Cet utilisateur n existe pas');
         end if;
 END;
-
+/
 CREATE OR REPLACE TRIGGER checkValiditeStatus
     AFTER UPDATE OR INSERT ON Tickets
     FOR EACH ROW
@@ -272,16 +273,16 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20001, 'Le status du ticket doit être "created", "assigned", "in progress", "resolved" ou "closed"');
     end if;
 end;
-
+/
 CREATE OR REPLACE TRIGGER checkValidityPriority
     AFTER UPDATE OR INSERT ON Tickets
     FOR EACH ROW
 BEGIN
-    IF :NEW.priority != 'low' AND :NEW.priority != 'medium' AND :NEW.priority != 'high' AND :NEW.priority != 'urgent' THEN
+    IF :NEW.priorite != 'low' AND :NEW.priorite != 'medium' AND :NEW.priorite != 'high' AND :NEW.priorite != 'urgent' THEN
         RAISE_APPLICATION_ERROR(-20001, 'La priorité du ticket doit être "low", "medium", "high" ou "urgent"');
     end if;
 end;
-
+/
 -- END TICKETS --
 
 -- MATERIELS --
@@ -294,15 +295,16 @@ BEGIN
         INTO :NEW.id
         FROM DUAL;
 END;
-
+/
 CREATE OR REPLACE TRIGGER MessageMaterielDetruit
     AFTER UPDATE ON MATERIELS
+    FOR EACH ROW
 BEGIN
     IF :NEW.ETAT = 'detruit' then
-        DBMS_OUTPUT.PUT_LINE('Le matériel ' || MATERIELS.NOM || ' / ' || MATERIELS.TYPE || ' d''id ' || MATERIELS.ID || ' est détruit');
+        DBMS_OUTPUT.PUT_LINE('Le matériel ' || :OLD.NOM || ' / ' || :OLD.TYPE || ' d id ' || :OLD.ID || ' est détruit');
     end if;
 END;
-
+/
 CREATE OR REPLACE TRIGGER checkValiditeEtat
     AFTER UPDATE OR INSERT ON MATERIELS
     FOR EACH ROW
@@ -311,7 +313,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20001, 'L état du matériel doit être "detruit", "en service", "en panne" ou "en réparation"');
     end if;
 end;
-
+/
 -- END MATERIELS --
 
 -- LOGICIELS --
@@ -324,7 +326,7 @@ BEGIN
         INTO :NEW.id
         FROM DUAL;
 END;
-
+/
 CREATE OR REPLACE TRIGGER VerifierExpiration
     BEFORE INSERT ON Logiciels
     FOR EACH ROW
@@ -333,7 +335,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20002, 'Erreur dans l enregistrement, le logiciel a expiré');
     END IF;
 END;
-
+/
 CREATE OR REPLACE TRIGGER LicenceDejaEnregistre
     BEFORE INSERT ON Logiciels
     FOR EACH ROW
@@ -345,7 +347,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20003, 'Erreur dans l enregistrement, la licence est déjà enregistrée');
     END IF;
 END;
-
+/
 -- END LOGICIELS --
 
 
@@ -359,7 +361,7 @@ BEGIN
         INTO :NEW.id
         FROM DUAL;
 END;
-
+/
 
 
 -- END PROJETS --
@@ -374,7 +376,7 @@ BEGIN
         INTO :NEW.id
         FROM DUAL;
 END;
-
+/
 -- END MATERIEL_LOGICIELS --
 
 -- PARTICIPANTS_PROJETS --
@@ -387,7 +389,7 @@ BEGIN
         INTO :NEW.id
         FROM DUAL;
 END;
-
+/
 -- END PARTICIPANTS_PROJETS --
 
 -- PROJETS_TICKETS --
@@ -400,7 +402,7 @@ BEGIN
         INTO :NEW.id
         FROM DUAL;
 END;
-
+/
 CREATE OR REPLACE TRIGGER checkProjet
     BEFORE INSERT ON Projets_Tickets
     FOR EACH ROW
@@ -412,6 +414,7 @@ BEGIN
             RAISE_APPLICATION_ERROR(-20001, 'Ce projet n existe pas');
         end if;
 END;
+/
 -- END PROJETS_TICKETS --
 
 -- CREATION DES VUES --
