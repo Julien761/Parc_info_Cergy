@@ -567,15 +567,15 @@ INSERT INTO Materiel_logiciels (id, materiel_id, logiciel_id) VALUES (10, 2, 9);
 
 -- INSERT TICKETS --
 INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (1, 'Problème de connexion', 'Je ne peux pas me connecter à mon compte', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En attente', 3, 5);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (2, 'Problème d impression', 'Je ne peux pas imprimer de documents', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Moyenne', 'En cours de traitement', 4, 6);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (2, 'Problème d impression', 'Je ne peux pas imprimer de documents', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Moyenne', 'En cours', 4, 6);
 INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (3, 'Problème de performance', 'Mon ordinateur est très lent', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Basse', 'Résolu', 2, 7);
 INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (4, 'Problème de logiciel', 'Je ne peux pas ouvrir mon logiciel de traitement de texte', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En attente', 5, 9);
 INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (5, 'Problème d accès', 'Je n ai pas accès à un dossier partagé', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Moyenne', 'Résolu', 1, 8);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (6, 'Problème de connexion', 'Je ne peux pas me connecter à Internet', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En cours de traitement', 6, 5);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (6, 'Problème de connexion', 'Je ne peux pas me connecter à Internet', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En cours', 6, 5);
 INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (7, 'Problème de messagerie', 'Je ne reçois pas mes emails', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Moyenne', 'Résolu', 3, 7);
 INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (8, 'Problème d installation', 'Je ne peux pas installer un logiciel', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Basse', 'En attente', 4, 6);
 INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (9, 'Problème de son', 'Je n ai pas de son sur mon ordinateur', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Moyenne', 'Résolu', 2, 5);
-INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (10, 'Problème de sauvegarde', 'Je ne peux pas sauvegarder mes fichiers', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En cours de traitement', 1, 9);
+INSERT INTO TICKETS (id, sujet, description, date_creation, priorite, status, utilisateur_id, technicien_id) VALUES (10, 'Problème de sauvegarde', 'Je ne peux pas sauvegarder mes fichiers', TO_DATE('2021-09-01', 'YYYY-MM-DD'), 'Haute', 'En cours', 1, 9);
 
 -- INSERT PROJET --
 INSERT INTO PROJETS (id, nom, description, date_creation, responsable_id)
